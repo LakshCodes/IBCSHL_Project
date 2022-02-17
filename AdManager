@@ -40,10 +40,6 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
         Advertisement.Show("rewardedVideo");
     }
 
-
-
-
-
     public void OnUnityAdsDidError(string message)
     {
         Debug.LogError($"Unity Ads Error: {message}");

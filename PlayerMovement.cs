@@ -78,9 +78,9 @@ public class PlayerMovement : MonoBehaviour
         {
             newPosition.y = -newPosition.y + 0.1f;
         }
-        else if (viewportPosition.x < 0)
+        else if (viewportPosition.y < 0)
        {
-           newPosition.x = -newPosition.x - 0.1f;
+           newPosition.y = -newPosition.y - 0.1f;
        }
     }
 

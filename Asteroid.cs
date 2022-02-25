@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class Asteroid : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+   private void OnTriggerEnter(Collider other)
     {
         PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
 
@@ -14,8 +14,8 @@ public class NewBehaviourScript : MonoBehaviour
         
     }
 
-    priavte void private void OnBecameInvisible() 
+    private void OnBecameInvisible() 
     {
-        Destroy(GameObject);
+        Destroy(gameObject);
     }
 }

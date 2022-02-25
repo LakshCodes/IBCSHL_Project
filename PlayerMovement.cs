@@ -1,57 +1,56 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine; 
+using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour 
+public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float forceMagnitude;
     [SerializeField] private float maxVelocity;
-    [SerializeField] private float rotationSpeed; 
+    [SerializeField] private float rotationSpeed;
+     
 
-    private RigidBody rb;
+    private Rigidbody rb;
     private Camera mainCamera; 
 
     private Vector3 movementDirection; 
 
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         mainCamera = Camera.main;
     }
 
     void Update()
     {
-        ProcessInput();
+       ProcessInput();
 
-        KeepPlayerOnScreen();
+       KeepPlayerOnScreen();
 
-        RotateToFaceVelocity();
+       RotateToFaceVelocity();
     }
 
-    private void FixedUpdate() 
+    void FixedUpdate()
     {
-        if(movementDirection == Vector3.zero) { return; }
+        if(movementDirection == Vector3.zero) {return; }
 
         rb.AddForce(movementDirection * forceMagnitude * Time.deltaTime, ForceMode.Force);
 
-        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocity)
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocity);
     }
-    
+
     private void ProcessInput()
     {
-        if(Touchscreen.current.primaryTouch.press.isPressed)
+           if(Touchscreen.current.primaryTouch.press.isPressed)
         {
             Vector2 touchPosition = Touchscreen.current.primaryTouch.position.ReadValue();
 
-            Debug.Log(touchPosition);
-
             Vector3 worldPosition = mainCamera.ScreenToWorldPoint(touchPosition);
-
-            Debug.Log(worldPosition);
 
             movementDirection = transform.position - worldPosition;
             movementDirection.z = 0f;
             movementDirection.Normalize();
+
         }
         else
         {
@@ -62,18 +61,16 @@ public class PlayerMovement : MonoBehaviour
     private void KeepPlayerOnScreen()
     {
         Vector3 newPosition = transform.position;
-        vector3 viewportPosition = mainCamera.WorldToViewportPoint(transform.positon);
-
+        Vector3 viewportPosition = mainCamera.WorldToViewportPoint(transform.position);
 
         if(viewportPosition.x > 1)
         {
-           newPosition.x = -newPosition.x + 0.1f;
+            newPosition.x = -newPosition.x + 0.1f;
         }
         else if(viewportPosition.x < 0)
         {
             newPosition.x = -newPosition.x - 0.1f;
         }
-        
         if(viewportPosition.y > 1)
         {
             newPosition.y = -newPosition.y + 0.1f;
@@ -82,14 +79,18 @@ public class PlayerMovement : MonoBehaviour
        {
            newPosition.y = -newPosition.y - 0.1f;
        }
+
+        transform.position = newPosition;
     }
 
     private void RotateToFaceVelocity()
     {
-        if(rb.velocity == Vector3.zero) {return; }
-        Quaternion targetRotation = Quaternion.LookRotation(rb.velocity, Vector3.back);
 
+        if(rb.velocity == Vector3.zero) {return; }
+
+        Quaternion targetRotation = Quaternion.LookRotation(rb.velocity, Vector3.back);
         transform.rotation = Quaternion.Lerp(
             transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
     }
 }

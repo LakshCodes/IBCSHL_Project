@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ScoreSystem : MonoBehaviour
 {
-    [SerializeField] private TMP_text scoreText;
+    [SerializeField] private TMP_Text scoreText;
     [SerializeField] private float scoreMultiplier;
 
-    priavte bool shouldCount = true; 
     private float score;
+    private bool shouldCount = true;
 
     void Update()
     {
@@ -17,14 +18,13 @@ public class ScoreSystem : MonoBehaviour
 
         scoreText.text = Mathf.FloorToInt(score).ToString();
     }
-    
+
     public void StartTimer()
     {
         shouldCount = true; 
     }
 
-
-    public void EndTimer()
+    public int EndTimer()
     {
         shouldCount = false; 
 

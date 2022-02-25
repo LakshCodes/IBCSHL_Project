@@ -6,16 +6,16 @@ using UnityEngine.Advertisements;
 public class AdManager : MonoBehaviour, IUnityAdsListener
 {
     [SerializeField] private bool testMode = true;
-
+    
     public static AdManager Instance;
-
+    private GameOverHandler gameOverHandler;
+    
 #if UNITY_ANDROID
-    private string gameId = "4597301";
+    private string gameId = "4630627";
 #elif UNITY_IOS
-    private string gameId = "4597300";
+    private string gameId = "4630626";
 #endif
 
-    private GameOverHandler gameOverHandler;
 
     void Awake() 
     {
@@ -33,7 +33,7 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
         }
     }
 
-    public void showAd(GameOverHandler gameOverHandler)
+    public void ShowAd(GameOverHandler gameOverHandler)
     {
         this.gameOverHandler = gameOverHandler; 
 
@@ -57,8 +57,7 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
                 break;
             case ShowResult.Failed: 
                 Debug.LogWarning("Ad Failed");
-                break;
-            
+                break;  
         }
     }
 
